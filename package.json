@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack server --config ./build/webpack.config.js --env development --open",
+    "dev": "webpack server --config ./build/webpack.config.js --env development",
     "build": "webpack --config ./build/webpack.config.js --env production"
   },
   "keywords": [
@@ -17,9 +17,11 @@
   "author": "hehaonan",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.1",
     "vue": "^3.2.33"
   },
   "devDependencies": {
+    "@vue/compiler-sfc": "^3.2.33",
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "less": "^4.1.2",

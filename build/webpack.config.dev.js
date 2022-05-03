@@ -1,6 +1,5 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
     entry: path.join(__dirname, '../demo/src/index.ts'),
@@ -8,17 +7,13 @@ module.exports = {
         path: path.join(__dirname, '../demo/dist'),
         filename: 'bundle.js'
     },
-    devtool: 'eval',
+    devtool: 'source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '../demo/index.html'),
             inject: 'body',
             filename: 'index.html',
             title: 'vue-report demo'
-        }),
-        new webpack.DefinePlugin({
-            __VUE_OPTIONS_API__: false,
-            __VUE_PROD_DEVTOOLS__: false
         })
     ],
     devServer: {

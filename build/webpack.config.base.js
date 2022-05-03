@@ -1,9 +1,23 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
+const { VueLoaderPlugin } = require('vue-loader')
 module.exports = {
     module: {
         rules: [
+            {
+                test: /\.less$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
             {
                 test: /\.vue$/,
                 use: ['vue-loader'],
@@ -14,17 +28,8 @@ module.exports = {
                 loader: 'ts-loader',
                 exclude: /node_modules/,
                 options: {
-                    appendTsSuffixTo: [/.\vue$/]
+                    appendTsSuffixTo: [/\.vue$/],
                 }
-            },
-            {
-                test: /\.css$ | \.less$/,
-                use: [
-                    'style-loader',
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'less-loader'
-                ]
             },
         ]
     },
@@ -34,7 +39,6 @@ module.exports = {
             __VUE_OPTIONS_API__: false,
             __VUE_PROD_DEVTOOLS__: false,
         }),
-        new MiniCssExtractPlugin()
     ],
     resolve: {
         extensions: ['.vue', '.ts', '.js']

@@ -10,6 +10,8 @@
         "target": "ES6",
         "module": "esnext",
         "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "typeRoots": [
             "./globalDeclare"
         ]

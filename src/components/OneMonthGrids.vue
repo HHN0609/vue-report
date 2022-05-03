@@ -1,16 +1,82 @@
 <template>
-<div class="month_container">
-
+<div class="card_container" >
+    <div class="grids_container" :style="{ width: containerWidth + 'px' }" ref="container">
+        <div v-for="index in headEmptyDays" class="empty_grids"></div>
+        <div v-for="index in totalDays" class="day_grids"></div>
+    </div>
+    <div class="month_tag">{{month}}月</div>
 </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, defineProps, computed , Ref, onUnmounted, reactive} from 'vue';
+import dayjs from "dayjs"
+import getTotalWeeksInMonth from '../units/getTotalWeeksInMonth'
+
+const container: Ref<any> = ref(null)
+const props = defineProps<{
+    year: number,
+    month: number,
+    day?: number,
+    data?: object
+}>()
+const totalDays = computed(() => {
+    return dayjs(`${props.year}-${props.month}`).daysInMonth()
+})
+const headEmptyDays = computed(() => {
+    return dayjs(`${props.year}-${props.month}`).day()
+})
+const containerWidth = computed(() => {
+    return getTotalWeeksInMonth(props.year, props.month) * 12
+})
+
+const mouseOverHandle = (event: MouseEvent): void => {
+    if(event.target === event.currentTarget) return
+    let target = event.target
+}
+onMounted(() => {
+    const dom:HTMLElement = container.value
+    dom.addEventListener("mouseover", mouseOverHandle)
+})
+onUnmounted(() => {
+    const dom:HTMLElement = container.value
+    dom.removeEventListener("mouseover", mouseOverHandle)
+})
 </script>
 
-<style lang="less" scoped>
-.month_container{
-    width: 400px;
-    height: 700px;
-    border: 1px solid black;
+<style scoped lang="less">
+@container_height: 84px;
+.card_container{
+    width: fit-content;
+    display: inline-block;
+}
+.grids_container{
+    overflow: hidden;
+    border: 1px solid rgb(168, 161, 161);
+    height: @container_height;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    > .day_grids{
+        box-sizing: border-box;
+        width: 12px;
+        height: 12px;
+        background: rgb(215, 208, 208);
+        border: 1px solid white;
+        border-radius: 30%;
+    }
+    > .empty_grids{
+        box-sizing: border-box;
+        width: calc(@container_height / 7);
+        height: calc(@container_height / 7);
+        visibility: hidden;
+    }
+}
+.month_tag{
+    color: rgb(143, 140, 140);
+    text-align: center;
 }
 </style>
