@@ -33,29 +33,38 @@ const headEmptyDays = computed(() => {
 const containerWidth = computed(() => {
     return getTotalWeeksInMonth(props.year, props.month) * 12
 })
-const emit = defineEmits(
-    {
-        hover(payload){
-            return true
-        }
+const emit = defineEmits({
+    hover(payload){
+        return true
+    },
+    out(payload){
+        return true
     }
-)
+})
 const mouseOverHandle = (event: MouseEvent): void => {
     if(event.target === event.currentTarget) return
     let target = event.target as HTMLElement
-    console.log(target.dataset.key)
     emit("hover", {
         month: props.month,
-        day: Number(target.dataset.key)
+        day: Number(target.dataset.key),
+        target: target
+    })
+}
+const mouseOutHandle = (event: MouseEvent): void => {
+    if(event.target === event.currentTarget) return
+    emit("out", {
+        
     })
 }
 onMounted(() => {
     const dom:HTMLElement = container.value
     dom.addEventListener("mouseover", mouseOverHandle)
+    dom.addEventListener('mouseout', mouseOutHandle)
 })
 onUnmounted(() => {
     const dom:HTMLElement = container.value
     dom.removeEventListener("mouseover", mouseOverHandle)
+    dom.removeEventListener("mouseout", mouseOutHandle)
 })
 </script>
 
