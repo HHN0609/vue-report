@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import MonthList from '../../src/components/MonthList.vue';
 import mockData from '../../src/units/mockData'
-const data = mockData(2021, 12, 6)
+const data = mockData(2021, 6, 12)
 console.log(data)
 </script>
 

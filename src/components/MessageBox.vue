@@ -32,7 +32,6 @@ watch(() => props.target, () => {
 <style scoped lang="less">
 .box {
     display: inline-block;
-    overflow: hidden;
     position: absolute;
     z-index: 10;
     > .triangle {
@@ -44,14 +43,17 @@ watch(() => props.target, () => {
         margin: 0 auto;
     }
     > .messageBox {
+        overflow: hidden;
         display: inline-block;
         width: 150px;
         white-space: wrap;
-        min-height: 40px;
-        border-radius: 10px;
+        min-height: 20px;
+        border-radius: 5px;
         background:#dcdcdc;
         text-align: center;
-        line-height: 40px;
+        line-height: 20px;
+        box-shadow: 10px 10px 10px 0px #888888;
+        
     }    
 }
 </style>
