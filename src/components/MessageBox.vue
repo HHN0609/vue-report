@@ -2,40 +2,40 @@
 <div class="box" :style="{ top: y + 'px', left: x + 'px'}">
     <div class="triangle"></div>
     <div class="messageBox">
-        <slot></slot>{{ msg }}
+        <slot name="date"></slot>
+        <slot name="description">no contribution</slot>
     </div>
 </div>
 </template>
 
 <script setup lang="ts">
 import { ref, Ref } from '@vue/reactivity';
-import { watch, onBeforeMount} from 'vue';
+import { watch, nextTick } from 'vue';
 
 const props = defineProps<{
-    msg?: string | number,
     target?: HTMLElement
 }>()
-const messageBox: HTMLElement = document.querySelector(".messageBox")
-console.log(messageBox)
+
 let x: Ref<number> = ref(0)
 let y: Ref<number> = ref(0)
-watch( () => props.target, () => {
-    console.log("change posititon")
-    let rect: DOMRect = props.target.getBoundingClientRect()
-    x.value = rect.x - 75 + rect.width / 2
-    y.value = rect.y + rect.height
+watch(() => props.target, () => {
+    nextTick(() => {
+        let rect: DOMRect = props.target.getBoundingClientRect()
+        x.value = rect.x - 75 + rect.width / 2
+        y.value = rect.y + rect.height
+    })
 })
 
 
 </script>
 
 <style scoped lang="less">
-.box{
+.box {
     display: inline-block;
     overflow: hidden;
     position: absolute;
     z-index: 10;
-    > .triangle{
+    > .triangle {
         width: 0;
         height: 0;
         border-left: 5px solid rgba(0, 0, 0, 0);
@@ -45,7 +45,8 @@ watch( () => props.target, () => {
     }
     > .messageBox {
         display: inline-block;
-        min-width: 150px;
+        width: 150px;
+        white-space: wrap;
         min-height: 40px;
         border-radius: 10px;
         background:#dcdcdc;

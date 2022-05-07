@@ -1,8 +1,8 @@
 <template>
-<div class="card_container" >
+<div class="card_container" :style="{ width: containerWidth + 'px' }">
     <div class="grids_container" :style="{ width: containerWidth + 'px' }" ref="container">
         <div v-for="index in headEmptyDays" class="empty_grids"></div>
-        <div v-for="index in totalDays" :data-key="index" :key="index" class="day_grids" :style="{ background: colorArr[data[index - 1].depth] }"></div>
+        <div v-for="index in totalDays" :data-key="index" class="day_grids" :style="{ background: colorArr[data[index - 1].depth] }"></div>
     </div>
     <div class="month_tag">{{month}}月</div>
 </div>
@@ -13,16 +13,12 @@ import { ref, onMounted, defineProps, computed , Ref, onUnmounted} from 'vue';
 import dayjs from "dayjs"
 import getTotalWeeksInMonth from '../units/getTotalWeeksInMonth'
 import colorArr from '../theme/green'
-type ComponentData = {
-    depth: number,
-    tipsData: string
-}
+import { DescriptionTemplate } from '../types'
 const container: Ref<any> = ref(null)
 const props = defineProps<{
     year: number,
     month: number,
-    data: ComponentData[],
-    day?: number,
+    data: DescriptionTemplate[]
 }>()
 const totalDays = computed(() => {
     return dayjs(`${props.year}-${props.month}`).daysInMonth()
@@ -34,7 +30,7 @@ const containerWidth = computed(() => {
     return getTotalWeeksInMonth(props.year, props.month) * 12
 })
 const emit = defineEmits({
-    hover(payload){
+    show(payload){
         return true
     },
     out(payload){
@@ -44,7 +40,8 @@ const emit = defineEmits({
 const mouseOverHandle = (event: MouseEvent): void => {
     if(event.target === event.currentTarget) return
     let target = event.target as HTMLElement
-    emit("hover", {
+    emit("show", {
+        year: props.year,
         month: props.month,
         day: Number(target.dataset.key),
         target: target
@@ -52,9 +49,7 @@ const mouseOverHandle = (event: MouseEvent): void => {
 }
 const mouseOutHandle = (event: MouseEvent): void => {
     if(event.target === event.currentTarget) return
-    emit("out", {
-        
-    })
+    emit("out", {})
 }
 onMounted(() => {
     const dom:HTMLElement = container.value
@@ -71,7 +66,6 @@ onUnmounted(() => {
 <style scoped lang="less">
 @container_height: 84px;
 .card_container{
-    width: fit-content;
     display: inline-block;
 }
 .grids_container{
