@@ -2,13 +2,13 @@
 <div class="vue-report-container">
     <one-month-grids v-for="item in data" 
         @out="hiddenBox" 
-        @show="showBox" 
+        @show="showBox"
         :year="item.year" 
         :month="item.month" 
         :data="item.dailyMsgs"
     />
 </div>
-<message-box v-if="isShow" :target="target">
+<message-box v-show ="isShow" :target="target">
     <template v-slot:date>
         <div>{{year}} - {{month}} - {{day}}</div>
     </template>

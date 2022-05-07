@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { ref, Ref } from '@vue/reactivity';
-import { watch, nextTick } from 'vue';
+import { watch } from 'vue';
 
 const props = defineProps<{
     target?: HTMLElement
@@ -19,11 +19,10 @@ const props = defineProps<{
 let x: Ref<number> = ref(0)
 let y: Ref<number> = ref(0)
 watch(() => props.target, () => {
-    nextTick(() => {
-        let rect: DOMRect = props.target.getBoundingClientRect()
-        x.value = rect.x - 75 + rect.width / 2
-        y.value = rect.y + rect.height
-    })
+    console.log(props.target)
+    let rect: DOMRect = props.target.getBoundingClientRect()
+    x.value = rect.x - 75 + rect.width / 2
+    y.value = rect.y + rect.height
 })
 
 
