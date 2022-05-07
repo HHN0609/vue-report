@@ -19,7 +19,6 @@ const props = defineProps<{
 let x: Ref<number> = ref(0)
 let y: Ref<number> = ref(0)
 watch(() => props.target, () => {
-    console.log(props.target)
     let rect: DOMRect = props.target.getBoundingClientRect()
     x.value = rect.x - 75 + rect.width / 2
     y.value = rect.y + rect.height
@@ -31,7 +30,7 @@ watch(() => props.target, () => {
 <style scoped lang="less">
 .box {
     display: inline-block;
-    position: absolute;
+    position: fixed;
     z-index: 10;
     > .triangle {
         width: 0;

@@ -26,7 +26,7 @@ import { MonthDataTemplate } from '../types'
 const props = defineProps<{
     data: MonthDataTemplate[],
     mode?: string,
-    themeColor?: string
+    themeColor?: 'green' | 'blue'
 }>()
 
 // 控制messageBox的显示
@@ -63,13 +63,23 @@ const hiddenBox = () => {
 
 <style scoped lang="less">
 .vue-report-container{
+    padding-bottom: 3px;
     width: fit-content;
     height: fit-content;
     overflow-y: hidden;
-    overflow-x: scroll;
+    overflow-x: auto;
     resize: horizontal;
     white-space: nowrap;
     min-width: 400px;
     background:rgb(247, 244, 244);
+}
+.vue-report-container::before {
+    content: "";
+    height: 100%;
+    vertical-align: bottom;
+    width: 10px;
+    background: #000;
+    display: inline-block;
+    word-wrap: break-word;
 }
 </style>

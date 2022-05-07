@@ -23,23 +23,17 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(["show", "out"])
 
-/**
- * @returns 这个月一共有几天
- */
+// 这个月一共有几天
 const totalDays = computed(() => {
     return dayjs(`${props.year}-${props.month}`).daysInMonth()
 })
 
-/**
- * @returns 这个月1号所在的星期的星期天，到这个月1号，中间间隔的天数
- */
+// 这个月1号所在的星期的星期天，到这个月1号，中间间隔的天数
 const headEmptyDays = computed(() => {
     return dayjs(`${props.year}-${props.month}`).day()
 })
 
-/**
- * @returns 根据这个月横跨了多少个星期来动态计算容器的宽度
- */
+// 根据这个月横跨了多少个星期来动态计算容器的宽度
 const containerWidth = computed(() => {
     return getTotalWeeksInMonth(props.year, props.month) * 13
 })
