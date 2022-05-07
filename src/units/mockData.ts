@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import { MonthDataTemplate } from '../../src/types'
+import { MonthDataTemplate } from '../types'
 const randomDepth = () => {
     return Math.floor(Math.random() * 14)
 }
@@ -13,7 +13,7 @@ export default function (year: number, startMonth: number, monthNum: number): Mo
         let totalDays = dayjs(`${year}-${startMonth + i}`).daysInMonth()
         let obj: MonthDataTemplate = {
             month: dayjs(`${year}-${startMonth + i}`).month() + 1,
-            year: year,
+            year: dayjs(`${year}-${startMonth + i}`).year(),
             dailyMsgs: []
         }
         for(let j: number = 0; j < totalDays; j++){

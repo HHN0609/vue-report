@@ -49,7 +49,7 @@ const showBox = (payload) => {
     nextTick(() => {
         target.value = payload.target
     })
-    msg.value = payload.day
+    msg.value = payload.description
     year.value = payload.year
     month.value = payload.month
     day.value = payload.day
@@ -65,7 +65,11 @@ const hiddenBox = () => {
 .vue-report-container{
     width: fit-content;
     height: fit-content;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: scroll;
     resize: horizontal;
+    white-space: nowrap;
+    min-width: 400px;
+    background:rgb(247, 244, 244);
 }
 </style>

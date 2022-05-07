@@ -1,5 +1,5 @@
 <template>
-<div class="card_container" :style="{ width: containerWidth + 'px' }">
+<div class="card_container">
     <div class="grids_container" :style="{ width: containerWidth + 'px' }" ref="container">
         <div v-for="index in headEmptyDays" class="empty_grids"></div>
         <div v-for="index in totalDays" :data-key="index" class="day_grids" :style="{ background: colorArr[data[index - 1].depth] }"></div>
@@ -14,29 +14,30 @@ import dayjs from "dayjs"
 import getTotalWeeksInMonth from '../units/getTotalWeeksInMonth'
 import colorArr from '../theme/green'
 import { DescriptionTemplate } from '../types'
+
 const container: Ref<any> = ref(null)
 const props = defineProps<{
     year: number,
     month: number,
     data: DescriptionTemplate[]
 }>()
+const emit = defineEmits(["show", "out"])
+
+// 这个月一共有几天
 const totalDays = computed(() => {
     return dayjs(`${props.year}-${props.month}`).daysInMonth()
 })
+
+// 这个月1号所在的星期的星期天，到这个月1号，中间间隔的天数
 const headEmptyDays = computed(() => {
     return dayjs(`${props.year}-${props.month}`).day()
 })
+
+// 根据这个月横跨了多少个星期来动态计算容器的宽度
 const containerWidth = computed(() => {
-    return getTotalWeeksInMonth(props.year, props.month) * 12
+    return getTotalWeeksInMonth(props.year, props.month) * 13
 })
-const emit = defineEmits({
-    show(payload){
-        return true
-    },
-    out(payload){
-        return true
-    }
-})
+
 const mouseOverHandle = (event: MouseEvent): void => {
     if(event.target === event.currentTarget) return
     let target = event.target as HTMLElement
@@ -44,6 +45,7 @@ const mouseOverHandle = (event: MouseEvent): void => {
         year: props.year,
         month: props.month,
         day: Number(target.dataset.key),
+        description: props.data[Number(target.dataset.key) - 1].description,
         target: target
     })
 }
@@ -64,9 +66,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
-@container_height: 84px;
+@container_height: 91px;
 .card_container{
     display: inline-block;
+    width: fit-content;
 }
 .grids_container{
     overflow: hidden;
@@ -83,7 +86,9 @@ onUnmounted(() => {
         width: 12px;
         height: 12px;
         background: rgb(215, 208, 208);
-        border: 1px solid white;
+        border: 2px solid rgba(0, 0, 0, 0.418);
+        margin: 0.5px;
+        background-clip: content-box;
         border-radius: 30%;
     }
     > .empty_grids{
